@@ -9,19 +9,19 @@ class LinkedList
 
   def append(value)
     if head==nil
-      self.head = Node.new(value)
+      self.head = Node.new(key,value)
     else
       current = head
       while current.next_node != nil
         current = current.next_node
       end
-      current.next_node = Node.new(value)
+      current.next_node = Node.new(key,value)
     end
     @size += 1
   end
 
-  def prepend(value)
-    input_node = Node.new(value)
+  def prepend(key,value)
+    input_node = Node.new(key,value)
     input_node.next_node = head
     self.head = input_node
     @size += 1
@@ -49,7 +49,16 @@ class LinkedList
     return removed_node
   end
 
-  def contains?(value)
+  def contains_key?(key)
+    current = head
+    while current != nil
+      return true if current.key == key
+      current = current.next_node
+    end
+    false
+  end
+
+  def contains_value?(value)
     current = head
     while current != nil
       return true if current.value == value
@@ -58,7 +67,7 @@ class LinkedList
     false
   end
 
-  def find(value) #returns index, returns nil if the input is out of reach
+  def find_index_by_key(key) #returns index, returns nil if the input is out of reach
     current = head
     count = 0
     while current != nil
@@ -69,7 +78,7 @@ class LinkedList
     return nil
   end
 
-  def find_node(value)  #returns node, returns nil if the input is out of reach
+  def find_node_by_key(key)  #returns node, returns nil if the input is out of reach
     current = head
     while current != nil
       return current if current.value == value
@@ -78,7 +87,7 @@ class LinkedList
     return nil
   end
 
-  def to_s
+  def to_s 
     str = ""
     current = self.head
     while current != nil
@@ -125,7 +134,7 @@ class LinkedList
       at(index-1).next_node = at(index+1)
     end
     @size-=1
-    return removed_node.value 
+    return removed_node.value
   end
 
 end
