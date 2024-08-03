@@ -1,4 +1,5 @@
-
+# this LinkedList class is modified for hashmap usage
+#
 class LinkedList
   attr_accessor :head
   attr_reader :size
