@@ -2,12 +2,12 @@ require_relative 'linked_list'
 require_relative 'node'
 require 'pry-byebug'
 class HashMap
-  attr_reader :number_of_items
+  attr_reader :length
   def initialize
     @bucket = Array.new(16)
     @load_factor = 0.75
     @mod = 16
-    @number_of_items = 0
+    @length = 0
   end
 
   def hash(key)
@@ -57,5 +57,5 @@ class HashMap
     end
   end
 
-  
+
 end
