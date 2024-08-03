@@ -7,7 +7,7 @@ class LinkedList
     @size = 0
   end
 
-  def append(value)
+  def append(key,value)
     if head==nil
       self.head = Node.new(key,value)
     else
@@ -81,13 +81,13 @@ class LinkedList
   def find_node_by_key(key)  #returns node, returns nil if the input is out of reach
     current = head
     while current != nil
-      return current if current.value == value
+      return current if current.key == key
       current = current.next_node
     end
     return nil
   end
 
-  def to_s 
+  def to_s
     str = ""
     current = self.head
     while current != nil
