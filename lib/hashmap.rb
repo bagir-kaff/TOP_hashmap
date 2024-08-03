@@ -48,5 +48,14 @@ class HashMap
       return list.contains_key?(key)
     end
   end
+
+  def remove(key)
+    index = hash(key) % @mod
+    if list = @bucket[index]
+      node_index = list.find_index_by_key(key)
+      return list.remove_at(node_index) if node_index
+    end
+  end
+
   
 end
