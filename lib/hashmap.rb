@@ -4,9 +4,9 @@ require 'pry-byebug'
 class HashMap
   attr_reader :length
   def initialize
-    @bucket = Array.new(16)
-    @load_factor = 0.75
     @mod = 16
+    @bucket = Array.new(@mod)
+    @load_factor = 0.75
     @length = 0
   end
 
@@ -59,5 +59,8 @@ class HashMap
     end
   end
 
+  def clear
+    @bucket = Array.new(@mod)
+  end
 
 end
