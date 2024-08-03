@@ -34,12 +34,20 @@ class HashMap
   end
 
   def get(key)
-    node = ''
     @bucket.each do |linked_list|
       next if linked_list.nil?
       node = linked_list.find_node_by_key(key)
       return node.value if node != nil
     end
+    return nil
   end
+
+  def has?(key)
+    does_have = @bucket.any? do |linked_list|
+      linked_list.contains_key?(key) if linked_list != nil
+    end
+    puts does_have
+  end
+  
 
 end
