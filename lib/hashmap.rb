@@ -31,6 +31,7 @@ class HashMap
         node.value = value
       end
     end
+    @length += 1
   end
 
   def get(key)
@@ -53,6 +54,7 @@ class HashMap
     index = hash(key) % @mod
     if list = @bucket[index]
       node_index = list.find_index_by_key(key)
+      @length -= 1
       return list.remove_at(node_index) if node_index
     end
   end
