@@ -97,4 +97,19 @@ class HashMap
 
     return values
   end
+
+  def entries
+    entries = []
+    @bucket.each do |list|
+      list_entries = []
+      next if list.nil?
+      current_node = list.head
+      while current_node
+        list_entries << [current_node.key, current_node.value]
+        current_node = current_node.next_node
+      end
+      entries.concat(list_entries)
+    end
+    return entries
+  end
 end
