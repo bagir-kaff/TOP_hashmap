@@ -63,4 +63,38 @@ class HashMap
     @bucket = Array.new(@mod)
   end
 
+  def keys
+    keys = []
+
+    @bucket.each do |list|
+      list_keys = []
+      next if list.nil?
+      current_node = list.head
+      while current_node
+        list_keys << current_node.key
+        current_node = current_node.next_node
+      end
+      keys.concat(list_keys)
+    end
+
+    return keys
+  end
+
+
+  def values
+    values = []
+
+    @bucket.each do |list|
+      list_values = []
+      next if list.nil?
+      current_node = list.head
+      while current_node
+        list_values << current_node.value
+        current_node = current_node.next_node
+      end
+      values.concat(list_values)
+    end
+
+    return values
+  end
 end
