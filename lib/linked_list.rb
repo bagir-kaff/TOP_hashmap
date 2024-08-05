@@ -72,7 +72,7 @@ class LinkedList
     current = head
     count = 0
     while current != nil
-      return count if current.value == value
+      return count if current.key == key
       count += 1
       current = current.next_node
     end
