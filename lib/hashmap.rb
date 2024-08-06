@@ -1,6 +1,7 @@
 require_relative 'linked_list'
 require_relative 'node'
 require 'pry-byebug'
+
 class HashMap
   attr_reader :length
   def initialize
@@ -8,6 +9,26 @@ class HashMap
     @bucket = Array.new(@mod)
     @load_factor = 0.75
     @length = 0
+  end
+
+  def check_entries_number
+    expand_hashmap  if @length > @mod * @load_factor
+  end
+
+  def expand_hashmap
+    @mod *= 2
+    temp_bucket = Array.new(@mod)
+    @bucket.each do |list|
+      next if list.nil?
+      current_node = list.head
+      while current_node
+        index = hash(current_node.key) % @mod
+        temp_bucket[index] = LinkedList.new if temp_bucket[index].nil?
+        temp_bucket[index].prepend(current_node.key, current_node.value)
+        current_node = current_node.next_node
+      end
+    end
+    @bucket = temp_bucket
   end
 
   def hash(key)
@@ -18,25 +39,26 @@ class HashMap
     return hash_code
   end
 
+
+
   def set(key,value)
     index = hash(key) % @mod
-    if @bucket[index].nil?
-      @bucket[index] = LinkedList.new
-      @bucket[index].prepend(key,value)
+
+    @bucket[index] = LinkedList.new if @bucket[index].nil?
+
+    node = @bucket[index].find_node_by_key(key)
+    if node.nil?
+      @bucket[index].prepend(key,value) #using #prepend instead of #append because it is O(1) , faster
       @length += 1
+      check_entries_number
     else
-      node = @bucket[index].find_node_by_key(key)
-      if node.nil?
-        @bucket[index].prepend(key,value) #using #prepend instead of #append because it is O(1) , faster
-        @length += 1
-      else
-        node.value = value
-      end
+      node.value = value
     end
   end
 
   def get(key)
     index = hash(key) % @mod
+
     if list = @bucket[index]
       node = list.find_node_by_key(key)
       return node.value if node != nil
@@ -55,13 +77,18 @@ class HashMap
     index = hash(key) % @mod
     if list = @bucket[index]
       node_index = list.find_index_by_key(key)
-      @length -= 1
-      return list.remove_at(node_index) if node_index
+      if node_index
+        removed_value =  list.remove_at(node_index)
+        @length -= 1
+      end
     end
+    return removed_value
   end
 
   def clear
     @bucket = Array.new(@mod)
+    @length = 0
+    @mod = 16
   end
 
   def keys
