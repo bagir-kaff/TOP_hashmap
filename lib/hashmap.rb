@@ -23,15 +23,16 @@ class HashMap
     if @bucket[index].nil?
       @bucket[index] = LinkedList.new
       @bucket[index].prepend(key,value)
+      @length += 1
     else
       node = @bucket[index].find_node_by_key(key)
       if node.nil?
         @bucket[index].prepend(key,value) #using #prepend instead of #append because it is O(1) , faster
+        @length += 1
       else
         node.value = value
       end
     end
-    @length += 1
   end
 
   def get(key)
@@ -113,3 +114,5 @@ class HashMap
     return entries
   end
 end
+
+#tinggal size expansion, klo udh ini hapus aja
